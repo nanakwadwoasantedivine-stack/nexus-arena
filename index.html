@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Nexus Arena</title>
+<style>
+:root{color-scheme:dark;--bg:#060919;--p1:#0b1030;--p2:#111844;--tx:#e8ecff;--mu:#8e98c9;--pu:#a855f7;--bl:#38bdf8;--cy:#22d3ee;--bd:rgba(130,150,255,.18);--gl:rgba(18,24,68,.55);box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*{box-sizing:border-box}html,body{height:100%;margin:0}
+body{background:radial-gradient(900px 500px at 10% -10%,#2a1260 0,transparent 60%),radial-gradient(800px 500px at 100% 110%,#073b66 0,transparent 60%),var(--bg);color:var(--tx);font:15px/1.45 system-ui,-apple-system,"Segoe UI",sans-serif;overflow:hidden}
+#app{display:flex;height:100%}
+.rail{width:64px;background:#04061a;display:flex;flex-direction:column;align-items:center;gap:10px;padding:12px 0;border-right:1px solid var(--bd)}
+.logo,.plus{width:44px;height:44px;border-radius:14px;display:grid;place-items:center;font-weight:800;border:0;cursor:pointer;color:#fff}
+.logo{background:linear-gradient(135deg,var(--pu),var(--bl));box-shadow:0 0 18px rgba(168,85,247,.6)}
+.plus{background:var(--p2);color:var(--cy);font-size:22px}
+.side{width:230px;background:var(--gl);backdrop-filter:blur(14px);border-right:1px solid var(--bd);display:flex;flex-direction:column}
+.brand{padding:14px;border-bottom:1px solid var(--bd)}
+.brand b{letter-spacing:.14em;background:linear-gradient(90deg,var(--pu),var(--cy));-webkit-background-clip:text;background-clip:text;color:transparent;font-size:17px}
+.brand small{display:block;color:var(--mu);font-size:11px;margin-top:2px}
+.nav{flex:1;overflow:auto;padding:8px}
+.nav h6{margin:12px 8px 4px;color:var(--mu);font-size:11px;letter-spacing:.1em;text-transform:uppercase}
+.nav button{all:unset;box-sizing:border-box;display:flex;width:100%;gap:8px;align-items:center;padding:8px 10px;border-radius:8px;color:var(--mu);cursor:pointer}
+.nav button:hover{background:rgba(255,255,255,.06);color:var(--tx)}
+.nav button.on{background:rgba(168,85,247,.22);color:#fff;box-shadow:inset 3px 0 var(--cy)}
+.nav .soon{opacity:.55}.nav em{margin-left:auto;font-style:normal;font-size:10px;border:1px solid var(--bd);border-radius:6px;padding:0 5px}
+.me{display:flex;gap:8px;align-items:center;padding:10px;border-top:1px solid var(--bd);background:rgba(0,0,0,.25)}
+.me div{min-width:0}.me b,.me small{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.me small{color:var(--mu);font-size:11px}
+.av{flex:none;width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font-weight:700;color:#fff}
+.main{flex:1;min-width:0;display:flex;flex-direction:column}
+.top{display:flex;align-items:center;gap:10px;padding:12px 16px;border-bottom:1px solid var(--bd);background:var(--gl);backdrop-filter:blur(14px)}
+.top h2{margin:0;font-size:16px}.top span{color:var(--mu);font-size:13px}
+#burger{display:none;all:unset;cursor:pointer;font-size:22px;color:var(--cy)}
+.body{flex:1;display:flex;min-height:0}
+#content{flex:1;min-width:0;display:flex;flex-direction:column;overflow:auto;padding:16px}
+.mem{width:200px;border-left:1px solid var(--bd);background:rgba(0,0,0,.2);padding:12px;overflow:auto}
+.mem h6{margin:0 0 8px;color:var(--mu);font-size:11px;letter-spacing:.1em;text-transform:uppercase}
+.mem div{display:flex;gap:8px;align-items:center;padding:4px 0}.mem .av{width:28px;height:28px;font-size:12px}
+.msgs{flex:1;overflow:auto;display:flex;flex-direction:column;gap:12px;padding-bottom:8px}
+.msg{display:flex;gap:10px}.msg b{margin-right:6px}.msg small{color:var(--mu);font-size:11px}.msg p{margin:2px 0 0;word-break:break-word}
+.compose{display:flex;gap:8px;padding-top:8px}
+input,select,textarea{background:#0a0f2e;color:var(--tx);border:1px solid var(--bd);border-radius:10px;padding:10px 12px;font:inherit;width:100%;outline:none}
+input:focus,select:focus,textarea:focus{border-color:var(--cy);box-shadow:0 0 0 3px rgba(34,211,238,.15)}
+.btn{background:linear-gradient(135deg,var(--pu),var(--bl));color:#fff;border:0;border-radius:10px;padding:10px 16px;font-weight:600;cursor:pointer;white-space:nowrap}
+.btn.ghost{background:transparent;border:1px solid var(--bd);color:var(--mu)}
+.card{background:var(--gl);border:1px solid var(--bd);border-radius:14px;padding:16px;backdrop-filter:blur(12px);margin-bottom:12px}
+.card h3{margin:0 0 6px}.card p{margin:4px 0;color:var(--mu)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px}
+.game .em{font-size:34px}.tag{display:inline-block;font-size:11px;color:var(--cy);border:1px solid var(--cy);border-radius:6px;padding:0 6px;margin-left:6px}
+.f{display:flex;flex-direction:column;gap:8px;max-width:520px}label{color:var(--mu);font-size:12px}
+.empty{color:var(--mu);text-align:center;padding:30px}
+.warn{background:rgba(250,204,21,.12);border:1px solid rgba(250,204,21,.4);padding:10px 14px;border-radius:10px;margin-bottom:12px;display:none}
+#toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--p2);border:1px solid var(--cy);padding:10px 16px;border-radius:10px;display:none;z-index:9}
+@media(max-width:800px){.rail,.mem{display:none}#burger{display:block}.side{position:fixed;z-index:5;top:0;bottom:0;left:0;transform:translateX(-100%);transition:.2s;padding-top:env(safe-area-inset-top,0px)}.side.open{transform:none}}
+#auth{position:fixed;inset:0;z-index:20;display:grid;place-items:center;background:radial-gradient(900px 500px at 10% -10%,#2a1260 0,transparent 60%),radial-gradient(800px 500px at 100% 110%,#073b66 0,transparent 60%),var(--bg);padding:16px;overflow:auto}
+.acard{width:100%;max-width:380px;background:var(--gl);border:1px solid var(--bd);border-radius:18px;padding:24px;backdrop-filter:blur(14px);box-shadow:0 0 40px rgba(168,85,247,.25)}
+.acard .logo{margin:0 auto 10px;cursor:default}.acard h1{margin:0;text-align:center;letter-spacing:.14em;font-size:22px;background:linear-gradient(90deg,var(--pu),var(--cy));-webkit-background-clip:text;background-clip:text;color:transparent}
+.acard>p{text-align:center;color:var(--mu);font-size:12px;margin:4px 0 14px}#amsg{color:#fca5a5;font-size:13px;min-height:18px;margin:6px 0}#aswap{all:unset;color:var(--cy);cursor:pointer;font-size:13px;text-align:center}
+</style></head><body>
+<div id="auth"><div class="acard"><div class="logo">N</div><h1>NEXUS ARENA</h1><p>Enter the Arena. Connect. Compete. Conquer.</p><div class="f" id="aform" style="display:none"><h3 id="atitle" style="margin:0">Log in</h3><label>Email</label><input id="aemail" type="email" autocomplete="email"><div id="aun"><label>Username</label><input id="auser" maxlength="24" autocomplete="username"></div><label>Password</label><input id="apass" type="password" autocomplete="current-password"><div id="acf"><label>Confirm password</label><input id="apass2" type="password" autocomplete="new-password"></div><div id="amsg"></div><button class="btn" id="ago">Continue</button><button id="aswap"></button><button id="afg" style="all:unset;color:var(--mu);cursor:pointer;font-size:12px;text-align:center">Forgot password?</button></div><div id="astat" style="text-align:center;color:var(--mu)">Checking account…</div></div></div>
+<div id="app">
+<div class="rail"><button class="logo" onclick="go('home')" title="Home">N</button><button class="plus" onclick="toast('Joining other arenas is not yet available')" title="Add arena">+</button></div>
+<aside class="side" id="side">
+<div class="brand"><b>NEXUS ARENA</b><small>Enter the Arena. Connect. Compete. Conquer.</small></div>
+<div class="nav" id="nav"></div>
+<div class="me"><div class="av" id="meav"></div><div><b id="mename">Guest</b><small id="mesub">Not signed in</small></div></div>
+</aside>
+<div class="main">
+<div class="top"><button id="burger" onclick="side.classList.toggle('open')">☰</button><h2 id="title"></h2><span id="sub"></span></div>
+<div class="body"><div id="content"></div><aside class="mem"><h6>Members</h6><div id="mlist"></div></aside></div>
+</div></div>
+<div id="toast"></div>
+<script type="module">
+import {initializeApp} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+import {getAuth,onAuthStateChanged,createUserWithEmailAndPassword,signInWithEmailAndPassword,sendEmailVerification,sendPasswordResetEmail,signOut} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
+import {getFirestore,doc,setDoc,deleteDoc,collection,onSnapshot} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+const $=s=>document.querySelector(s),side=$('#side');
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const VIEWS={home:['Dashboard','Your arena at a glance'],admin:['Admin Panel','Admins only'],chat:['# global-chat','Everyone in the arena, live'],profile:['Profile','Your username and details'],games:['Games','Pick what you want to play'],news:['Announcements','Updates from the admins'],feedback:['Feedback','Tell us what to improve']};
+const SOON=['Friends','Notifications','Settings'];
+let db=null,user=null,uid=null,admin=false,view='home',chat=[],games=[],news=[],fb=[],profs={};
+const me=()=>profs[uid]||{};
+const nm=(id,p)=>(p||profs[id]||{}).username||('Player-'+String(id||'0000').slice(0,4));
+const col=id=>{let h=0;for(const c of String(id))h=(h*31+c.charCodeAt(0))%360;return`hsl(${h} 70% 50%)`};
+const av=(id,n)=>`<div class="av" style="background:${col(id)}">${esc(n[0]||'?').toUpperCase()}</div>`;
+const rid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+const t=ts=>new Date(ts).toLocaleString([], {month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'});
+function toast(m){const e=$('#toast');e.textContent=m;e.style.display='block';clearTimeout(toast.t);toast.t=setTimeout(()=>e.style.display='none',2200)}
+function nav(){$('#nav').innerHTML='<h6>Channels</h6><button data-v="chat"># global-chat</button><button class="soon" data-s="Other channels">🔒 game-lounge<em>Soon</em></button><h6>Arena</h6><button data-v="home">🏠 Dashboard</button><button data-v="profile">👤 Profile</button><button data-v="games">🎮 Games</button><button data-v="news">📣 Announcements</button><button data-v="feedback">💬 Feedback</button><h6>More</h6>'+SOON.map(s=>`<button class="soon" data-s="${s}">${s}<em>Soon</em></button>`).join('')+(admin?'<h6>Admin</h6><button data-v="admin">🛡️ Admin Panel</button>':'');
+ document.querySelectorAll('#nav button').forEach(b=>{b.className+=(b.dataset.v===view?' on':'');b.onclick=()=>b.dataset.v?go(b.dataset.v):toast(b.dataset.s+' is not yet available')})}
+function go(v){if(v==='admin'&&!admin){toast('Admin access only');v='home'}view=v;side.classList.remove('open');nav();$('#title').textContent=VIEWS[v][0];$('#sub').textContent=VIEWS[v][1];const c=$('#content');
+ if(v==='home')c.innerHTML='<div id="hero"></div><div class="grid" id="hstats"></div><div id="hnews" style="margin-top:12px"></div>';
+ if(v==='admin')c.innerHTML='<div class="grid" id="astats"></div><div class="grid"><div class="card f"><h3>Add a game</h3><input id="gn" placeholder="Game name" maxlength="40"><input id="ge" placeholder="Emoji (e.g. 🏎️)" maxlength="4"><input id="gd" placeholder="Short description" maxlength="120"><button class="btn" id="ga">Add game</button></div><div class="card f"><h3>Post announcement</h3><input id="an" placeholder="Title" maxlength="80"><textarea id="ab" rows="3" placeholder="Message" maxlength="1000"></textarea><button class="btn" id="ap">Post</button></div></div><div id="alists"></div>';
+ if(v==='chat')c.innerHTML='<div class="msgs" id="msgs"></div><div class="compose"><input id="ci" maxlength="500" placeholder="Message #global-chat" autocomplete="off"><button class="btn" id="cs">Send</button></div>';
+ if(v==='profile')c.innerHTML='<div class="card f"><div id="pav"></div><label>Username</label><input id="pu" maxlength="24"><label>Gender</label><select id="pg"><option value="">Select…</option><option>Male</option><option>Female</option><option>Non-binary</option><option>Prefer not to say</option></select><button class="btn" id="ps">Save profile</button><p id="pgame"></p></div>';
+ if(v==='games')c.innerHTML='<div id="gadmin"></div><div class="grid" id="glist"></div>';
+ if(v==='news')c.innerHTML='<div id="aadmin"></div><div id="alist"></div>';
+ if(v==='feedback')c.innerHTML='<div class="card f"><label>Type</label><select id="ft"><option>Idea</option><option>Bug</option><option>Other</option></select><label>Your feedback</label><textarea id="fx" rows="4" maxlength="1000"></textarea><button class="btn" id="fs">Send feedback</button></div><div id="flist"></div>';
+ bind();fill()}
+function needDb(){if(!db){toast('Please log in first');return true}}
+function bind(){
+ if(view==='chat'){const send=async()=>{if(needDb())return;const x=$('#ci').value.trim();if(!x)return;$('#ci').value='';await db.doc('chat/'+rid()).set({uid,name:nm(uid),text:x,ts:Date.now()}).catch(()=>toast('Message failed to send'))};$('#cs').onclick=send;$('#ci').onkeydown=e=>{if(e.key==='Enter')send()}}
+ if(view==='profile'){$('#pu').value=me().username||'';$('#pg').value=me().gender||'';$('#ps').onclick=async()=>{if(needDb())return;const u=$('#pu').value.trim();if(!u)return toast('Enter a username');await db.doc('profiles/'+uid).set({...me(),username:u,gender:$('#pg').value}).then(()=>toast('Profile saved')).catch(()=>toast('Could not save'))}}
+ if(view==='admin'){$('#ga').onclick=async()=>{const n=$('#gn').value.trim();if(!n)return toast('Name required');await db.doc('games/'+rid()).set({name:n,emoji:$('#ge').value||'🎮',desc:$('#gd').value,ts:Date.now()}).then(()=>{$('#gn').value=$('#ge').value=$('#gd').value='';toast('Game added')}).catch(()=>toast('Could not add'))};
+  $('#ap').onclick=async()=>{const n=$('#an').value.trim();if(!n)return toast('Title required');await db.doc('announcements/'+rid()).set({title:n,body:$('#ab').value,ts:Date.now()}).then(()=>{$('#an').value=$('#ab').value='';toast('Posted')}).catch(()=>toast('Could not post'))}}
+ if(view==='feedback')$('#fs').onclick=async()=>{if(needDb())return;const x=$('#fx').value.trim();if(!x)return toast('Write something first');await db.doc('feedback/'+rid()).set({uid,name:nm(uid),type:$('#ft').value,text:x,ts:Date.now()}).then(()=>{$('#fx').value='';toast('Thanks! Feedback sent')}).catch(()=>toast('Could not send'))}}
+function fill(){
+ const mn=nm(uid);$('#mename').textContent=db?mn:'Guest';$('#mesub').textContent=db?(admin?'Admin':'Member'):'Not signed in';$('#meav').outerHTML=`<div class="av" id="meav" style="background:${col(uid||'x')}">${esc(mn[0]).toUpperCase()}</div>`;
+ const ids=Object.keys(profs);$('#mlist').innerHTML=ids.length?ids.map(i=>`<div>${av(i,nm(i))}<span>${esc(nm(i))}</span></div>`).join(''):'<span class="empty" style="padding:0">No members yet</span>';
+ if(view==='chat'){const m=$('#msgs');m.innerHTML=chat.length?chat.map(x=>`<div class="msg">${av(x.uid,x.name||'?')}<div><b style="color:${col(x.uid)}">${esc(x.name)}</b><small>${t(x.ts)}</small><p>${esc(x.text)}</p></div></div>`).join(''):'<div class="empty">No messages yet. Say hello!</div>';m.scrollTop=m.scrollHeight}
+ if(view==='profile'){$('#pav').innerHTML=av(uid||'x',mn);const g=games.find(x=>x.id===me().game);$('#pgame').textContent='Current game: '+(g?g.name:'none chosen')}
+ if(view==='games'){$('#glist').innerHTML=games.length?games.map(g=>{const n=Object.values(profs).filter(p=>p.game===g.id).length,sel=me().game===g.id;return`<div class="card game"><div class="em">${esc(g.emoji)}</div><h3>${esc(g.name)}${sel?'<span class="tag">Selected</span>':''}</h3><p>${esc(g.desc)}</p><p>${n} player${n==1?'':'s'}</p><button class="btn${sel?' ghost':''}" data-c="${g.id}">${sel?'Unselect':'Choose'}</button></div>`}).join(''):'<div class="empty">No games yet.'+' An admin will add some soon.'+'</div>';
+  document.querySelectorAll('[data-c]').forEach(b=>b.onclick=()=>{if(needDb())return;const sel=me().game===b.dataset.c;db.doc('profiles/'+uid).set({...me(),username:nm(uid),game:sel?'':b.dataset.c}).catch(()=>toast('Could not update'))});}
+ if(view==='news'){$('#alist').innerHTML=news.length?news.map(a=>`<div class="card"><h3>${esc(a.title)}</h3><p style="color:var(--tx);white-space:pre-wrap">${esc(a.body)}</p><small style="color:var(--mu)">${t(a.ts)}</small></div>`).join(''):'<div class="empty">No announcements yet.</div>';}
+ if(view==='home'){const mine=Object.keys(profs).includes(uid),g=games.find(x=>x.id===me().game),l=news[0];
+  $('#hero').innerHTML=`<div class="card"><h3 style="font-size:26px">Welcome back, <span style="background:linear-gradient(90deg,var(--pu),var(--cy));-webkit-background-clip:text;background-clip:text;color:transparent">${esc(mn)}</span> 👋</h3><p style="color:var(--tx)">Welcome to Nexus Arena — the hub where players connect, compete and conquer. Jump into the global chat, pick a game, catch up on announcements, or tell us how to make the arena better.</p>${mine?'':'<p>Tip: set your own username in Profile.</p>'}<div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:10px"><button class="btn" onclick="go('chat')">Open chat</button><button class="btn ghost" onclick="go('games')">Browse games</button><button class="btn ghost" onclick="go('profile')">Edit profile</button></div></div>`;
+  $('#hstats').innerHTML=[['Members',Object.keys(profs).length],['Games',games.length],['Messages',chat.length],['Your game',g?g.name:'None']].map(([k,v])=>`<div class="card"><p>${k}</p><h3>${esc(v)}</h3></div>`).join('');
+  $('#hnews').innerHTML=l?`<div class="card"><p>📣 Latest announcement</p><h3>${esc(l.title)}</h3><p style="color:var(--tx);white-space:pre-wrap">${esc(l.body)}</p></div>`:'';}
+ if(view==='admin'){const list=(a,f,c)=>a.length?a.map(x=>`<div class="card" style="display:flex;gap:10px;align-items:center;padding:10px"><span style="flex:1;min-width:0;word-break:break-word">${f(x)}</span><button class="btn ghost" data-x="${c}/${x.id}">Delete</button></div>`).join(''):'<div class="empty">Nothing yet.</div>';
+  $('#astats').innerHTML=[['Members',Object.keys(profs).length],['Messages',chat.length],['Games',games.length],['Feedback',fb.length]].map(([k,v])=>`<div class="card"><p>${k}</p><h3 style="font-size:26px">${v}</h3></div>`).join('');
+  $('#alists').innerHTML='<h3>Games</h3>'+list(games,g=>esc(g.emoji)+' '+esc(g.name),'games')+'<h3>Announcements</h3>'+list(news,a=>esc(a.title),'announcements')+'<h3>Feedback inbox</h3>'+(fb.length?fb.map(f=>`<div class="card"><b>${esc(f.type)}</b> from ${esc(f.name)} <small style="color:var(--mu)">${t(f.ts)}</small><p style="color:var(--tx)">${esc(f.text)}</p><button class="btn ghost" data-x="feedback/${f.id}">Delete</button></div>`).join(''):'<div class="empty">No feedback yet.</div>')+'<h3>Recent chat (moderation)</h3>'+list(chat.slice(-20).reverse(),m=>'<b>'+esc(m.name)+'</b>: '+esc(m.text),'chat');
+  document.querySelectorAll('[data-x]').forEach(b=>b.onclick=()=>confirm('Delete this?')&&db.doc(b.dataset.x).delete())}}
+const ADMIN_EMAIL='nanakwadwoasantedivine@gmail.com';
+const app=initializeApp({apiKey:"AIzaSyCneSgI6LqdBlwIEXdtAOCo7qj6gZAlDEQ",authDomain:"nexus-arena-e2d50.firebaseapp.com",projectId:"nexus-arena-e2d50",storageBucket:"nexus-arena-e2d50.firebasestorage.app",messagingSenderId:"840044074291",appId:"1:840044074291:web:47d6b1bdebdfb3b2519a46"});
+const auth=getAuth(app),fs=getFirestore(app);
+db={doc:p=>({set:d=>setDoc(doc(fs,p),d),delete:()=>deleteDoc(doc(fs,p))}),collection:p=>({onSnapshot:(n,e)=>onSnapshot(collection(fs,p),n,e)})};
+const msg=m=>$('#amsg').textContent=m;let su=false,started=false;
+function mode(x){su=x;$('#atitle').textContent=x?'Create your account':'Log in';$('#aun').style.display=$('#acf').style.display=x?'block':'none';$('#aswap').textContent=x?'Have an account? Log in':'New here? Sign up';$('#apass').autocomplete=x?'new-password':'current-password';msg('')}
+const friendly=c=>({'auth/email-already-in-use':'That email already has an account. Log in instead.','auth/invalid-credential':'Incorrect email or password','auth/weak-password':'Password is too weak','auth/invalid-email':'Enter a valid email','auth/too-many-requests':'Too many attempts. Try again later.','auth/network-request-failed':'Network error. Check your connection.'}[c]||'Something went wrong. Try again.');
+async function submit(){const e=$('#aemail').value.trim(),p=$('#apass').value;msg('');
+ try{if(su){const u=$('#auser').value.trim();if(u.length<3)return msg('Username must be at least 3 characters');if(p.length<8)return msg('Password must be at least 8 characters');if(p!==$('#apass2').value)return msg('Passwords do not match');
+   const c=await createUserWithEmailAndPassword(auth,e,p);await setDoc(doc(fs,'profiles/'+c.user.uid),{username:u});sendEmailVerification(c.user).catch(()=>{})}
+  else await signInWithEmailAndPassword(auth,e,p)}catch(x){msg(friendly(x.code))}}
+function sub(path,fn){return db.collection(path).onSnapshot(s=>{fn(s.docs.map(d=>({id:d.id,...d.data()})));fill()},()=>{})}
+function start(){if(started)return;started=true;nav();
+ $('.me').insertAdjacentHTML('beforeend','<button class="btn ghost" id="lo" style="padding:4px 8px;font-size:12px">Log out</button>');$('#lo').onclick=async()=>{await signOut(auth);location.reload()};
+ const by=(a,b)=>(a.ts||0)-(b.ts||0);
+ sub('chat',a=>chat=a.sort(by).slice(-150));sub('profiles',a=>{profs={};a.forEach(p=>profs[p.id]=p)});sub('games',a=>games=a.sort(by));sub('announcements',a=>news=a.sort((x,y)=>by(y,x)));
+ if(admin)sub('feedback',a=>fb=a.sort((x,y)=>by(y,x)));fill()}
+nav();go('home');mode(false);
+$('#ago').onclick=submit;$('#apass').onkeydown=$('#apass2').onkeydown=ev=>{if(ev.key==='Enter')submit()};$('#aswap').onclick=()=>mode(!su);
+$('#afg').onclick=async()=>{const e=$('#aemail').value.trim();if(!e)return msg('Enter your email first');try{await sendPasswordResetEmail(auth,e);msg('Reset link sent. Check your inbox.')}catch(x){msg(friendly(x.code))}};
+onAuthStateChanged(auth,u=>{if(!u){$('#astat').style.display='none';$('#aform').style.display='flex';return}
+ uid=u.uid;const isAdm=(u.email||'').toLowerCase()===ADMIN_EMAIL;admin=isAdm&&u.emailVerified;
+ if(isAdm&&!u.emailVerified)toast('Verify your email (check your inbox), then log in again to unlock the Admin Panel');
+ $('#auth').style.display='none';start()});
+window.go=go;window.toast=toast;
+</script></body></html>
